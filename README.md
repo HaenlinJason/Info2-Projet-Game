@@ -1,4 +1,4 @@
-# Projet-Info2-GEII
+# Info2 Projet 
 Réalisation d'un jeu de style space invader
 
 matétriels:
