@@ -2,7 +2,7 @@
 //      library
 //      Prototypes et Class
 //      date de création    : 22/06/2016
-//      date de mise à jour : 22/06/2016
+//      date de mise à jour : 23/06/2016
 //      détails             :
 // sound.period(1/(frequence[i])); //set PWM period
 // sound.write(0.5); //set duty cycle
