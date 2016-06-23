@@ -4,7 +4,7 @@
 //      date de création    : 20/05/2016
 //      date de mise à jour : 23/06/2016
 //      détails             :
-//fonction de la classe GAME
+//fonctions de la classe GAME
 ///////////////////////////////////////////////
 #define GAME
 #ifdef GAME
