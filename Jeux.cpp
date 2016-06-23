@@ -14,6 +14,7 @@
 #include "Music.h"
 #include "MusicConst.h"
 #include "TextLCD.h"
+//la bibliothéque de base à était modifié pour faire un scrolling
 
 #define JEU
 #ifdef JEU
