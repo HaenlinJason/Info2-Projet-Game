@@ -1,4 +1,4 @@
-# Info2 Projet 
+# Info2 Projet - By Arnaud TAVERNE & Jason HAENLIN 
 Réalisation d'un jeu de style space invader - Projet Complet https://drive.google.com/open?id=0B6ZfCaOcWJJ7LVdNdFlENXNQbzA
 
 matétriels:
