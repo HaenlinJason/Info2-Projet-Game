@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 /*
+permet d'avoir la bonne expression pour simplement le copier coller dans scilab pour 
+avoir le résultat en hexa
 home
     Image_Origine = fopen("F:\\VPN_IUT\\GEII S2\\ER2\\Code C\\LittleHearth.pgm", "r");
     Image_Nouvelle = fopen("F:\\VPN_IUT\\GEII S2\\ER2\\Code C\\LittleHearth.txt", "w+");
