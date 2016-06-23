@@ -2,7 +2,7 @@
 //      fonction de la library
 //      Fichier fonctions avec utilisation de class
 //      date de création    : 22/06/2016
-//      date de mise à jour : 22/06/2016
+//      date de mise à jour : 23/06/2016
 //      détails             :
 ///fonction du projet INFO2 musique de jeu
 ///////////////////////////////////////////////
