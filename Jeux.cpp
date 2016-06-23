@@ -10,6 +10,9 @@
 //Bibliothéque(s)
 #include "mbed.h"
 #include "Game.h"
+#include "GameConst.h"
+#include "Music.h"
+#include "MusicConst.h"
 #include "TextLCD.h"
 
 #define JEU
@@ -47,6 +50,9 @@ Serial pc(USBTX, USBRX); // tx, rx - Liaison série
 #define PinD5 D8
 #define PinD6 D9
 #define PinD7 D10
+//HAUT PARLEUR
+#define HP1   A2
+#define HP2   A3
 // CONSTANTES
 #define HIGH    1
 #define LOW     0
@@ -111,6 +117,7 @@ Serial pc(USBTX, USBRX); // tx, rx - Liaison série
 //DECLARATION DES PORTS DE COMMUNICATIONS
 TextLCD lcd (RS,E,PinD4,PinD5,PinD6,PinD7); //lcd 16*2
 Game space(LEDARRAY_D,LEDARRAY_C,LEDARRAY_B,LEDARRAY_A,LEDARRAY_G,LEDARRAY_DI,LEDARRAY_DO,LEDARRAY_CLK,LEDARRAY_LAT);
+Music son(HP1,HP2);
 AnalogIn x_axis(VRx);                   // Create the analog x movement object
 AnalogIn y_axis(VRy);                   // Create the analog y movement object
 DigitalIn button1(SW1, PullUp);         // Create the digital button object and setup internall pull-up resistor
@@ -134,6 +141,7 @@ char LettrePseudo(void);
 
 
 // GLOBALS
+int SelectionMusic;
 int T_MS1;
 int T_MS2;
 int giH,giM,giS,giD;
@@ -149,8 +157,8 @@ char NewMessage[MAXSIZE+1];
 
 //tableau des scores
 char ctScore0[40]="JAREON Score=1000 Temps=00:00:59";
-char ctScore1[40]="PAUL Score=9999 Temps=00:00: ";
-char ctScore2[40]="DilGod Score=999999999999 Temps=0";
+char ctScore1[40]="PAUL Score=9999 Temps=00:00:59 ";
+char ctScore2[40]="DilNoob Score=-9999999 Temps=30:00:00";
 char ctScore3[40]="vide";
 char ctScore4[40]="vide";
 char ctScore5[40]="vide";
@@ -259,29 +267,29 @@ int EventHandler(void)
     } else if(button1.read()==0&&timetir.read_ms() >=T_MS2) {
         timetir.reset();
         return SWJOY;
-        //JOYGAUCHE
-    } else if(x_axis.read()>0.8) {
-        if(timemove.read_ms() >=T_MS1) {
-            timemove.reset();
-            return JOYGAUCHE;
-        }
         //JOYDROITE
-    } else if(x_axis.read()<0.6) {
+    } else if(x_axis.read()>0.8) {
         if(timemove.read_ms() >=T_MS1) {
             timemove.reset();
             return JOYDROITE;
         }
-        //JOYHAUT
+        //JOYGAUCHE
+    } else if(x_axis.read()<0.6) {
+        if(timemove.read_ms() >=T_MS1) {
+            timemove.reset();
+            return JOYGAUCHE;
+        }
+        //JOYBAS
     } else if(y_axis.read()>0.8) {
         if(timemove.read_ms() >=T_MS1) {
             timemove.reset();
-            return JOYHAUT;
+            return JOYBAS;
         }
-        //JOYBAS
+        //JOYHAUT
     } else if(y_axis.read()<0.6) {
         if(timemove.read_ms() >=T_MS1) {
             timemove.reset();
-            return JOYBAS;
+            return JOYHAUT;
         }
     }
     //Mort
@@ -350,6 +358,7 @@ void Algo(void)
 ////////////////////////////////////////////////////////////////
 void Init(void)
 {
+    son.MusicOff();
     scanShip.attach(&shipscan,0.2);
     giEvent = RIEN;
     giEtat = LCDPLAY;
@@ -427,9 +436,9 @@ int A03(void)
 int A04(void)
 {
     lcd.cls();
-    lcd.printf("Jouer");
+    lcd.printf("  Jouer   Score");
     lcd.locate(0,1);
-    lcd.printf("=>Difficulte<=");
+    lcd.printf("=>Difficulte");
     printf("Action = A04\n\r");
     printf("Etat = LCDPARA\n\r");
     return LCDPARA;
@@ -515,6 +524,9 @@ int A11(void)//FAIBLE
 ////////////////////////////////////////////////////////////////
 int A12(void)//lvl1
 {
+    SelectionMusic=2;
+    son.MusicOff();
+    son.MusicSelect(SelectionMusic);
     scanShip.attach(&shipscan,0.2);
     space.reset();
     T_MS1=100;
@@ -550,6 +562,9 @@ int A14(void)//fin lvl2 debut lvl3
 }
 int A15(void)//fin lvl3 debut lvl4
 {
+    SelectionMusic=1;
+    son.MusicOff();
+    son.MusicSelect(SelectionMusic);
     space.clear();
     space.lvl_4();
     giStatelvl=LVL4;
@@ -577,6 +592,9 @@ int A17(void)//fin lvl5 debut lvl6
 }
 int A18(void)//fin lvl6 debut lvl7
 {
+    SelectionMusic=4;
+    son.MusicOff();
+    son.MusicSelect(SelectionMusic);
     space.clear();
     space.lvl_7();
     giStatelvl=LVL7;
@@ -604,6 +622,9 @@ int A20(void)//fin lvl8 debut lvl9
 }
 int A21(void)//fin lvl9 debut lvl10
 {
+    SelectionMusic=3;
+    son.MusicOff();
+    son.MusicSelect(SelectionMusic);
     space.clear();
     space.lvl_10();
     giStatelvl=LVL10;
@@ -624,6 +645,8 @@ int A22(void)//fin lvl10 gagne
     lcd.cls();
     lcd.printf("GAGNE! GAGNE!");
     Chrono.stop();
+    son.MusicOff();
+    son.Win();
     EndTime.reset();
     EndTime.start();
     printf("Action = A22\n\r");
@@ -653,6 +676,8 @@ int A24(void)//perdu
     lcd.cls();
     lcd.printf("PERDU! PERDU!");
     Chrono.stop();
+    son.MusicOff();
+    son.Loose();
     EndTime.reset();
     EndTime.start();
     printf("Action = A24\n\r");
@@ -664,6 +689,7 @@ int A24(void)//perdu
 ////////////////////////////////////////////////////////////////
 int A25(void)
 {
+    son.MusicOff();
     scanShip.detach();
     T_MS1=500;
     T_MS2=500;
@@ -683,6 +709,7 @@ int A26(void)
     T_MS2=150;
     space.Play();
     scanShip.attach(&shipscan,0.2);
+    son.MusicSelect(SelectionMusic);
     Chrono.reset();
     Chrono.start();
     lcd.cls();
@@ -792,6 +819,7 @@ int A37(void)//SWJOY
 ////////////////////////////////////////////////////////////////
 int A38(void)
 {
+    son.MusicOff();
     space.Pause();
     space.clear();
     space.menuAff();
@@ -827,6 +855,7 @@ int A40(void)
     T_MS2=150;
     scanShip.attach(&shipscan,0.2);
     space.Play();
+    son.MusicSelect(SelectionMusic);
     Chrono.reset();
     Chrono.start();
     printf("Action = A40\n\r");

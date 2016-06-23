@@ -15,12 +15,14 @@
 //Include(s) => Bibliothéque(s)
 #include "mbed.h"
 #include "Game.h"
+#include "GameConst.h"
 
 //variables globales
 unsigned int dat[TAILLE]= {NULL};
 int tmp[TAILLE]= {NULL};
 int D00[TAILLE]= {NULL};
 int tabchiffre[TAILLE]= {NULL};
+int nombre;
 char Display_Buffer[2];
 int i=0,j=0,sup1=0,sup2=0,add=0,mx=0,lvltest=0,HP_memo=0;
 
@@ -49,6 +51,7 @@ void Game::initprgm(void)
     _spi.frequency(1000000); //fréquance du bus SPI : 1 MHz
     _tirV.attach(this,&Game::tirmoveV,TIRV);
     _balayage.attach(this,&Game::Display,0.0001);
+    nombre=0;
 }
 ////////////////////////////////////////////////////////////////
 //Transmet les informations au programme principale//
@@ -191,18 +194,12 @@ void Game::set(int vs,vaisseau *M0)
             M0->y=13;
             break;
         case BOSS:
-            A100.tab[7  ]=  0x0240;
-            A100.tab[8  ]=  0x3BDC;
-            A100.tab[9  ]=  0x7FFE;
-            A100.tab[10 ]=  0x7FFE;
-            A100.tab[11 ]=  0x3FFC;
-            A100.tab[12 ]=  0x3FFC;
-            A100.tab[13 ]=  0x3FFC;
-            A100.tab[14 ]=  0x1E78;
-            A100.tab[15 ]=  0x0C30;
-            M0->tab[15  ]=  0xC000;
-            M0->tab[14  ]=  0xC000;
-            M0->tab[13  ]=  0xC000;
+            M0->tab[10 ]=  0x0490;
+            M0->tab[11 ]=  0x05D0;
+            M0->tab[12 ]=  0x03E0;
+            M0->tab[13 ]=  0x01C0;
+            M0->tab[14 ]=  0x03E0;
+            M0->y=10;
             break;
     }
 }
@@ -227,6 +224,7 @@ void Game::testLVL(void)
     set(Al1,&A01);
     lvl.HP=1;
     lvl.nbr=4;
+    nombre=lvl.nbr;
     A01.HP=_HP+lvl.HP;
     A02=A01;
     A03=A01;
@@ -249,6 +247,7 @@ void Game::lvl_1(void)
     set(Al1,&A01);
     lvl.HP=1;
     lvl.nbr=4;
+    nombre=lvl.nbr;
     A01.HP=_HP+lvl.HP;
     A02=A01;
     A03=A01;
@@ -269,6 +268,7 @@ void Game::lvl_2(void)
     //lvl parametre
     lvl.HP=1;
     lvl.nbr=6;
+    nombre=lvl.nbr;
     //affiche '2' sur la matrice
     Affiche(2);
     //set
@@ -302,6 +302,7 @@ void Game::lvl_3(void)
     //lvl parametre
     lvl.HP=2;
     lvl.nbr=9;
+    nombre=lvl.nbr;
     //affiche '3' sur la matrice
     Affiche(3);
     //set
@@ -344,6 +345,7 @@ void Game::lvl_4(void)
     //lvl parametre
     lvl.HP=2;
     lvl.nbr=6;
+    nombre=lvl.nbr;
     //affiche '4' sur la matrice
     Affiche(4);
     //set
@@ -378,6 +380,7 @@ void Game::lvl_5(void)
     //lvl parametre
     lvl.HP=2;
     lvl.nbr=6;
+    nombre=lvl.nbr;
     //affiche '5' sur la matrice
     Affiche(5);
     //set
@@ -411,6 +414,7 @@ void Game::lvl_6(void)
     //lvl parametre
     lvl.HP=2;
     lvl.nbr=9;
+    nombre=lvl.nbr;
     //affiche '6' sur la matrice
     Affiche(6);
     //set
@@ -454,6 +458,7 @@ void Game::lvl_7(void)
     //lvl parametre
     lvl.HP=2;
     lvl.nbr=6;
+    nombre=lvl.nbr;
     //affiche '7' sur la matrice
     Affiche(7);
     //set
@@ -488,6 +493,7 @@ void Game::lvl_8(void)
     //lvl parametre
     lvl.HP=3;
     lvl.nbr=6;
+    nombre=lvl.nbr;
     //affiche '8' sur la matrice
     Affiche(8);
     //set
@@ -521,6 +527,7 @@ void Game::lvl_9(void)
     //lvl parametre
     lvl.HP=3;
     lvl.nbr=9;
+    nombre=lvl.nbr;
     //affiche '9' sur la matrice
     Affiche(9);
     //set
@@ -563,27 +570,24 @@ void Game::lvl_10(void)
     //lvl parametre
     lvl.HP=4;
     lvl.nbr=5;
+    nombre=lvl.nbr;
     //affiche '10' sur la matrice
     Affiche(10);
     //set
-    set(BOSS,&A99);
+    set(BOSS,&A100);
     set(Al1,&A01);
     set(Al3,&A03);
-    A99.HP=_HP+lvl.HP;
+    A100.HP=_HP+lvl.HP+40;
     A01.HP=_HP+lvl.HP;
     A02=A01;
     A03.HP=_HP+lvl.HP;
     A04=A03;
     //placements
-    IngameMove(&A99,8,BAS);  
-    IngameMove(&A99,7,GAUCHE);
     IngameMove(&A01,3,BAS);
     IngameMove(&A01,7,GAUCHE);
     IngameMove(&A02,11,BAS);
     IngameMove(&A02,7,GAUCHE);
-    IngameMove(&A03,6,GAUCHE);
-    IngameMove(&A04,14,BAS);
-    IngameMove(&A04,6,GAUCHE);
+    IngameMove(&A03,13,BAS);
     //Pause
     Pause();
     //début lvl
@@ -624,6 +628,14 @@ void Game::LVlTestMove(void)
             lvltest++;
             break;
     }
+    switch(lvltest) {
+        case 1 :
+            IngameMove(&A100,1,HAUT);
+            break;
+        case 3 :
+            IngameMove(&A100,1,BAS);
+            break;
+    }
     if(lvltest>=6)
         lvltest=0;
 }
@@ -633,23 +645,22 @@ void Game::LVlTestMove(void)
 void Game::TtirAlien(void)
 {
     srand (time(NULL));
-    int rdm1 = (rand()%lvl.nbr);
+    int rdm1 = (rand()%nombre);
     int rdm2 = (rand()%4);
     switch (rdm1) {
         case 0:
             tirEnemy(A01);
             tirEnemy(A09);
-            tirEnemy(A99);
             break;
         case 1:
             tirEnemy(A02);
             tirEnemy(A08);
-            tirEnemy(A99);
+            tirEnemy(A100);
             break;
         case 2:
             tirEnemy(A03);
             tirEnemy(A07);
-            tirEnemy(A99);
+            tirEnemy(A100);
             break;
         case 3:
             tirEnemy(A04);
@@ -667,6 +678,7 @@ void Game::TtirAlien(void)
             break;
         case 4:
             tirEnemy(A05);
+            tirEnemy(A100);
             switch(rdm2) {
                 case 0:
                     tirEnemy(A01);
@@ -681,6 +693,7 @@ void Game::TtirAlien(void)
             break;
         case 5:
             tirEnemy(A06);
+            tirEnemy(A100);
             switch(rdm2) {
                 case 0:
                     tirEnemy(A01);
@@ -695,17 +708,15 @@ void Game::TtirAlien(void)
             break;
         case 6:
             tirEnemy(A07);
-            tirEnemy(A99);
             break;
         case 7:
             tirEnemy(A08);
             break;
         case 8:
             tirEnemy(A09);
-            tirEnemy(A99);
             break;
         case 9:
-            tirEnemy(A99);
+            tirEnemy(A100);
             break;
     }
 }
@@ -725,7 +736,7 @@ void Game::ShipDestroyScan(void)
     shipdestroy(&A08,&TV1);
     shipdestroy(&A09,&TV1);
     shipdestroy(&A10,&TV1);
-    shipdestroy(&A99,&TV1);
+    shipdestroy(&A100,&TV1);
 }
 void Game::shipdestroy(vaisseau *M0,vaisseau *T0)
 {
@@ -982,7 +993,7 @@ int Game::MovePossibility(vaisseau* M00,int test)
 void Game::Display(void)
 {
     dat[add]=(tabchiffre[add]|tabMenu[add]|V01.tab[add]|A01.tab[add]|A02.tab[add]|A03.tab[add]|A04.tab[add]|A05.tab[add]|A06.tab[add]|A07.tab[add]|
-    A08.tab[add]|A09.tab[add]|A10.tab[add]|A99.tab[add]|A100.tab[add]|TV1.tab[add]|TA1.tab[add]|D00[add]);
+              A08.tab[add]|A09.tab[add]|A10.tab[add]|A99.tab[add]|A100.tab[add]|TV1.tab[add]|TA1.tab[add]|D00[add]);
     _leG.write(HIGH);
     Display_Buffer[0] = ~(unsigned char) (dat[add] & 0x00ff);
     Display_Buffer[1] = ~(unsigned char)((dat[add] & 0xff00)>>8);

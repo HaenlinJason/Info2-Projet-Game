@@ -13,28 +13,7 @@
 ////////////////////////////////////////////////////////////////
 
 #include "mbed.h"
-
-//constantes
-//Enemy
-#define Al1     1
-#define Al2     2
-#define Al3     3
-#define BOSS    4
-//Difficulty
-#define FAIBLE  1
-#define MOYEN   2
-#define FORT    3
-//Others
-#define HIGH    1
-#define LOW     0
-#define TAILLE 16
-//Directions
-#define HAUT    1
-#define BAS     2
-#define DROITE  3
-#define GAUCHE  4
-//constantes
-#define TIRV    0.15
+#include "GameConst.h"
 
 //class
 class Game
