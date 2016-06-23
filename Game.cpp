@@ -2,7 +2,7 @@
 //      fonction de la library
 //      Fichier fonctions avec utilisation de class
 //      date de création    : 20/05/2016
-//      date de mise à jour : 05/06/2016
+//      date de mise à jour : 23/06/2016
 //      détails             :
 //fonction de la classe GAME
 ///////////////////////////////////////////////
