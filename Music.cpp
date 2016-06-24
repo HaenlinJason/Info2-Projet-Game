@@ -2,7 +2,7 @@
 //      fonction de la library
 //      Fichier fonctions avec utilisation de class
 //      date de création    : 22/06/2016
-//      date de mise à jour : 23/06/2016
+//      date de mise à jour : 22/06/2016
 //      détails             :
 ///fonction du projet INFO2 musique de jeu
 ///////////////////////////////////////////////
@@ -108,34 +108,42 @@ void Music::Son(void)
         case 1:
             if(duree>131)
                 duree=0;
-            _HP1.period(1/(frequence1[duree])); //set PWM period
-            _HP1.write(0.5); //set duty cycle
-            _HP2.period(1/(frequence1[duree])); //set PWM period
-            _HP2.write(0.5); //set duty cycle
+            if(frequence1[duree-1]!=frequence1[duree]) {
+                _HP1.period(1/(frequence1[duree])); //set PWM period
+                _HP1.write(0.5); //set duty cycle
+                _HP2.period(1/(frequence1[duree])); //set PWM period
+                _HP2.write(0.5); //set duty cycle
+            }
             break;
         case 2:
             if(duree>397)
                 duree=0;
-            _HP1.period(1/(frequence2[duree])); //set PWM period
-            _HP1.write(0.5); //set duty cycle
-            _HP2.period(1/(frequence2[duree])); //set PWM period
-            _HP2.write(0.5); //set duty cycle
+            if(frequence2[duree-1]!=frequence2[duree]) {
+                _HP1.period(1/(frequence2[duree])); //set PWM period
+                _HP1.write(0.5); //set duty cycle
+                _HP2.period(1/(frequence2[duree])); //set PWM period
+                _HP2.write(0.5); //set duty cycle
+            }
             break;
         case 3:
             if(duree>65)
                 duree=0;
-            _HP1.period(1/(frequence3[duree])); //set PWM period
-            _HP1.write(0.5); //set duty cycle
-            _HP2.period(1/(frequence3[duree])); //set PWM period
-            _HP2.write(0.5); //set duty cycle
+            if(frequence3[duree-1]!=frequence3[duree]) {
+                _HP1.period(1/(frequence3[duree])); //set PWM period
+                _HP1.write(0.5); //set duty cycle
+                _HP2.period(1/(frequence3[duree])); //set PWM period
+                _HP2.write(0.5); //set duty cycle
+            }
             break;
         case 4:
             if(duree>266)
                 duree=0;
-            _HP1.period(1/(frequence4[duree])); //set PWM period
-            _HP1.write(0.5); //set duty cycle
-            _HP2.period(1/(frequence4[duree])); //set PWM period
-            _HP2.write(0.5); //set duty cycle
+            if(frequence4[duree-1]!=frequence4[duree]) {
+                _HP1.period(1/(frequence4[duree])); //set PWM period
+                _HP1.write(0.5); //set duty cycle
+                _HP2.period(1/(frequence4[duree])); //set PWM period
+                _HP2.write(0.5); //set duty cycle
+            }
             break;
     }
 }
