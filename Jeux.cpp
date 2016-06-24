@@ -159,7 +159,7 @@ char NewMessage[MAXSIZE+1];
 //tableau des scores
 char ctScore0[40]="JAREON Score=1000 Temps=00:00:59";
 char ctScore1[40]="PAUL Score=9999 Temps=00:00:59 ";
-char ctScore2[40]="DilNoob Score=-9999999 Temps=30:00:00";
+char ctScore2[40]="DilNoob Score=999 Temps=30:00:00";
 char ctScore3[40]="vide";
 char ctScore4[40]="vide";
 char ctScore5[40]="vide";
