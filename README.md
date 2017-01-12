@@ -1,6 +1,6 @@
 # Info2 Projet - By Arnaud TAVERNE & Jason HAENLIN 
 Réalisation d'un jeu de style space invader - Projet Complet https://drive.google.com/open?id=0B6ZfCaOcWJJ7LVdNdFlENXNQbzA
-Langage C/C++ utilisé (principalement du C avec quelques ajouts du C++)
+Mbed Compiler : Langage C/C++ utilisé (principalement du C avec quelques ajouts du C++)
 matétriels:
 -Matrix leds 16*16 //http://www.elabpeers.com/led-matrix-display.html
 -Joysticks 
